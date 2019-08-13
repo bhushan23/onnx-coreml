@@ -442,6 +442,27 @@ def _convert_equal(builder, node, graph, err):
         output_name=node.outputs[0]
     )
 
+def _convert_expand(builder, node, graph, err):
+    '''
+    convert to CoreML Broadcast To Static/Dynamic Layer:
+    https://github.com/apple/coremltools/blob/655b3be5cc0d42c3c4fa49f0f0e4a93a26b3e492/mlmodel/format/NeuralNetwork.proto#L4086
+    https://github.com/apple/coremltools/blob/655b3be5cc0d42c3c4fa49f0f0e4a93a26b3e492/mlmodel/format/NeuralNetwork.proto#L4108
+    '''
+    if node.inputs[1] in node.input_tensors:
+        output_shape = node.input_tensors[node.inputs[1]].astype(np.int64)
+        builder.add_broadcast_to_static(
+            name=node.name,
+            input_name=node.inputs[0],
+            output_name=node.outputs[0],
+            output_shape=output_shape
+        )
+    else:
+        builder.add_broadcast_to_dynamic(
+            name=node.name,
+            input_names=node.inputs,
+            output_name=node.outputs[0],
+        )
+
 def _convert_flatten(builder, node, graph, err):
     '''
     convert to CoreML Flatten Layer:
@@ -1404,6 +1425,20 @@ def _convert_tanh(builder, node, graph, err):
         output_name=node.outputs[0]
     )
 
+def _convert_tile(builder, node, graph, err):
+    '''
+    convert to CoreML Tile Layer:
+    https://github.com/apple/coremltools/blob/655b3be5cc0d42c3c4fa49f0f0e4a93a26b3e492/mlmodel/format/NeuralNetwork.proto#L5117
+    '''
+    if node.inputs[1] is not node.input_tensors:
+        err.unsupported_op_configuration(builder, node, graph, "CoreML Tile layer does not support dynamic 'reps'. 'reps' should be known statically")
+    builder.add_tile(
+        name=node.name,
+        input_name=node.inputs[0],
+        output_name=node.outputs[0],
+        reps=node.input_tensors[node.inputs[1]]
+    )
+
 def _convert_transpose(builder, node, graph, err):
     '''
     convert to CoreML Transpose Layer:
@@ -1457,6 +1492,7 @@ _ONNX_NODE_REGISTRY_ND = {
     "Elu": _convert_elu,
     "Equal": _convert_equal,
     "Exp": _convert_exp,
+    "Expand": _convert_expand,
     "Flatten": _convert_flatten,
     "Floor": _convert_floor,
     "Gather": _convert_gather,
@@ -1513,6 +1549,7 @@ _ONNX_NODE_REGISTRY_ND = {
     "Sum": _convert_add,
     "Tanh": _convert_tanh,
     "ThresholdedRelu": _convert_thresholdedrelu,
+    "Tile": _convert_tile,
     "Transpose": _convert_transpose,
     "Unsqueeze": _convert_unsqueeze,
     "Upsample": _convert_upsample,
