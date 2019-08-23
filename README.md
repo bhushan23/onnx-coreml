@@ -6,6 +6,28 @@ This tool converts [ONNX](https://onnx.ai/) models to Apple CoreML format. To co
 
 There's a comprehensive [Tutorial](https://github.com/onnx/tutorials/tree/master/examples/CoreML/ONNXLive/README.md) showing how to convert PyTorch style transfer models through ONNX to CoreML models and run them in an iOS app.
 
+
+## [New] Beta onnx-coreml converter with Core ML 3
+
+To try out the new beta converter with coremltools 3, 
+install coremltools 3.0b5 and coremltools 0.5b1
+
+```shell
+pip install coremltools==3.0b5
+pip install onnx-coreml==0.5b1
+```
+
+There is a new flag `disable_coreml_rank5_mapping` which should be set to true to utilize 
+Core ML 3 specification.
+
+
+For example:
+```python
+from onnx_coreml import convert
+
+ml_model = convert(model='my_model.onnx', disable_coreml_rank5_mapping=True)
+```
+
 ## Installation
 
 ### Install From PyPI
@@ -36,8 +58,8 @@ cd onnx-coreml
 
 * click
 * numpy
-* coremltools (2.0+)
-* onnx (1.3.0+)
+* coremltools (3.0+)
+* onnx (1.5.0+)
 
 ## How to use
 
@@ -58,7 +80,7 @@ def convert(model,
             predicted_feature_name='classLabel',
             add_custom_layers = False,
             custom_conversion_functions = {},
-	    disable_coreml_rank5_mapping=False)
+	      disable_coreml_rank5_mapping=False)
 ```
 
 The function returns a coreml model instance that can be saved to a .mlmodel file, e.g.: 
@@ -202,71 +224,12 @@ Models from https://github.com/onnx/models that have been tested to work with th
 
 
 ### Operators
-List of ONNX operators that can be converted into their CoreML equivalent:
+List of [ONNX operators supported in CoreML 2.0](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators.py#L1893)
 
-- Abs
-- Add
-- ArgMax
-- ArgMin
-- AveragePool
-- BatchNormalization
-- Clip
-- Concat
-- Conv
-- ConvTranspose 
-- DepthToSpace
-- Div
-- Elu
-- Exp
-- Flatten
-- Gemm
-- GlobalAveragePool 
-- GlobalMaxPool 
-- HardSigmoid
-- InstanceNormalization
-- LeakyRelu
-- Log
-- LogSoftmax
-- LRN
-- MatMul
-- Max
-- MaxPool 
-- Mean
-- MeanVarianceNormalization
-- Min
-- Mul
-- Neg
-- Pad
-- PRelu
-- Reciprocal
-- ReduceL1
-- ReduceL2
-- ReduceLogSum
-- ReduceMax
-- ReduceMean
-- ReduceMin
-- ReduceProd
-- ReduceSum
-- ReduceSumSquare
-- Relu
-- Reshape
-- Selu
-- Sigmoid
-- Slice
-- Softmax
-- Softplus
-- Softsign
-- SpaceToDepth
-- Split
-- Sqrt
-- Sub
-- Sum
-- Tanh
-- ThresholdedRelu
-- Transpose
-- Upsample
+List of [ONNX operators supported in CoreML 3.0](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators_nd.py#L1821)
 
-Some of the operators are partially compatible because CoreML does not support gemm for arbitrary tensors, has limited support for non 4-rank tensors etc.   
+
+Some of the operators are partially compatible because CoreML does not support gemm for arbitrary tensors.
 For unsupported ops or unsupported attributes within supported ops, CoreML custom layers can be used.   
 See the testing script `tests/custom_layers_test.py` on how to produce CoreML models with custom layers. 
 

@@ -3,7 +3,7 @@ from os import path
 import sys
 
 
-VERSION = '0.4.0'
+VERSION = '0.5b1'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -48,10 +48,10 @@ setup(
     install_requires=[
         'click',
         'numpy',
-        'onnx>=1.3.0',
+        'onnx>=1.5.0',
         'typing>=3.6.4',
         'typing-extensions>=3.6.2.1',
-        'coremltools==3.0b3',
+        'coremltools>=3.0b4',
     ],
     setup_requires=['pytest-runner'],
     tests_require=[
