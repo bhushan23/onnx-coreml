@@ -9,16 +9,16 @@ There's a comprehensive [Tutorial](https://github.com/onnx/tutorials/tree/master
 
 ## [New] Beta onnx-coreml converter with Core ML 3
 
-To try out the new beta converter with coremltools 3, 
-install coremltools 3.0b5 and coremltools 0.5b1
+To try out the new beta converter with CoreML 3 (>= iOS 13, >= macOS 15), 
+install coremltools 3.0b4 and coremltools 1.0b2
 
 ```shell
-pip install coremltools==3.0b5
-pip install onnx-coreml==0.5b1
+pip install coremltools==3.0b4
+pip install onnx-coreml==1.0b2
 ```
 
 There is a new flag `disable_coreml_rank5_mapping` which should be set to true to utilize 
-Core ML 3 specification.
+the Core ML 3 specification.
 
 
 For example:
@@ -224,9 +224,9 @@ Models from https://github.com/onnx/models that have been tested to work with th
 
 
 ### Operators
-List of [ONNX operators supported in CoreML 2.0](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators.py#L1893)
+List of [ONNX operators supported in CoreML 2.0 via the converter](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators.py#L1893)
 
-List of [ONNX operators supported in CoreML 3.0](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators_nd.py#L1821)
+List of [ONNX operators supported in CoreML 3.0 via the converter](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators_nd.py#L1821)
 
 
 Some of the operators are partially compatible because CoreML does not support gemm for arbitrary tensors.

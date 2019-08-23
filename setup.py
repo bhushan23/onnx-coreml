@@ -3,7 +3,7 @@ from os import path
 import sys
 
 
-VERSION = '0.5b1'
+VERSION = '1.0b2'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -51,7 +51,7 @@ setup(
         'onnx>=1.5.0',
         'typing>=3.6.4',
         'typing-extensions>=3.6.2.1',
-        'coremltools>=3.0b4',
+        'coremltools==3.0b4',
     ],
     setup_requires=['pytest-runner'],
     tests_require=[
