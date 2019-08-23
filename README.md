@@ -228,10 +228,9 @@ List of [ONNX operators supported in CoreML 2.0 via the converter](https://githu
 
 List of [ONNX operators supported in CoreML 3.0 via the converter](https://github.com/onnx/onnx-coreml/blob/4d8b1cc348e2d6a983a6d38bb6921b6b77b47e76/onnx_coreml/_operators_nd.py#L1821)
 
-
-Some of the operators are partially compatible because CoreML does not support gemm for arbitrary tensors.
-For unsupported ops or unsupported attributes within supported ops, CoreML custom layers can be used.   
-See the testing script `tests/custom_layers_test.py` on how to produce CoreML models with custom layers. 
+Some of the operators are partially compatible with Core ML, for example gemm with more than 1 non constant input is not supported in Core ML 2, or scale as an input for upsample layer is not supported in Core ML 3 etc.
+For unsupported ops or unsupported attributes within supported ops, CoreML custom layers or custom functions can be used.   
+See the testing script `tests/custom_layers_test.py` on how to produce CoreML models with custom layers and custom functions. 
 
 ## License
 Copyright © 2018 by Apple Inc., Facebook Inc., and Prisma Labs Inc.
