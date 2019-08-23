@@ -10,10 +10,10 @@ There's a comprehensive [Tutorial](https://github.com/onnx/tutorials/tree/master
 ## [New] Beta onnx-coreml converter with Core ML 3
 
 To try out the new beta converter with CoreML 3 (>= iOS 13, >= macOS 15), 
-install coremltools 3.0b4 and coremltools 1.0b2
+install coremltools 3.0b3 and coremltools 1.0b2
 
 ```shell
-pip install coremltools==3.0b4
+pip install coremltools==3.0b3
 pip install onnx-coreml==1.0b2
 ```
 
