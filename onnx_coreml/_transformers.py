@@ -10,8 +10,6 @@ from onnx import TensorProto
 
 from ._graph import Graph, Node
 
-from .graph_viz import plot_graph # type: ignore
-
 def _get_fully_defined_shape(shape, blob_name, graph):
     if not np.any(shape == -1):
         return shape
