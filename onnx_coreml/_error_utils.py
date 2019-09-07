@@ -81,7 +81,7 @@ class ErrorHandling(object):
 
   def unsupported_feature_warning(self,
                                   node, # type: Node
-                                  err_message, # type: Text
+                                  warn_message, # type: Text
                                   ):
       # type: (...) -> None
       '''
@@ -90,7 +90,7 @@ class ErrorHandling(object):
       print(
         "Warning: Unsupported Feature in op of type {}, with input name = {}, "
         "output name = {}. Warning message: {} {}\n".
-        format(node.op_type, node.inputs[0], node.outputs[0], err_message, self.coreml_3_rerun_message)
+        format(node.op_type, node.inputs[0], node.outputs[0], warn_message, self.coreml_3_rerun_message)
       )
 
 
