@@ -25,14 +25,14 @@ from ._transformers import ConvAddFuser, DropoutRemover, \
     ReshapeInitTensorFuser, BNBroadcastedMulFuser, BNBroadcastedAddFuser, \
     PixelShuffleFuser, OutputRenamer, AddModelInputsOutputs, \
     ConstantsToInitializers, ImageScalerRemover, ShapeOpRemover, ConstantRemover, \
-    ConstantFillToInitializers, ReshapeTransposeReshape_pattern1, CastOpRemover
+    ConstantFillToInitializers, ReshapeTransposeReshape_pattern1, CastOpRemover, DeadCodeElimination
 
 from ._error_utils import ErrorHandling
 from .graph_viz import plot_graph # type: ignore
 
 USE_SHAPE_MAPPING = True
 
-DEBUG = False
+DEBUG = True
 
 '''
 inputs: list of tuples.
@@ -429,6 +429,7 @@ def convert(model,  # type: Union[onnx.ModelProto, Text]
         CastOpRemover(),
         ReshapeInitTensorFuser(),
         DropoutRemover(),
+        DeadCodeElimination(),
         ConvAddFuser(),
         BNBroadcastedMulFuser(),
         BNBroadcastedAddFuser(),
