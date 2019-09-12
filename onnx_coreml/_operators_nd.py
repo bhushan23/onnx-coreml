@@ -865,9 +865,9 @@ def _convert_lstm(builder, node, graph, err):  # type: (NeuralNetworkBuilder, No
         if len(activations_list) == 6:
             err.unsupported_feature_warning(node, "Forward and backward pass will use same activations.")
 
-        inner_activation = activations_list[0]
-        cell_state_update_activation = activations_list[1]
-        output_activation = activations_list[2]
+        inner_activation = activations_list[0].upper()
+        cell_state_update_activation = activations_list[1].upper()
+        output_activation = activations_list[2].upper()
     
     # Provide max Clip Value if not provided
     clip_threshold = node.attrs.get('clip', 500000.0)
