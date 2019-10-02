@@ -30,6 +30,8 @@ from ._transformers import ConvAddFuser, DropoutRemover, \
     ConstantsToInitializers, ImageScalerRemover, ShapeOpRemover, ConstantRemover, \
     ConstantFillToInitializers, ReshapeTransposeReshape_pattern1, CastOpRemover, DeadCodeElimination
 
+from ._mlmodel_pass import optimize_mlmodel
+
 from ._error_utils import ErrorHandling
 from .graph_viz import plot_graph # type: ignore
 
@@ -724,11 +726,11 @@ def convert(model,  # type: Union[onnx.ModelProto, Text]
             coremltools.models.utils.save_spec(builder.spec, '/tmp/node_model_raw_spec.mlmodel')
             from  coremltools.models.neural_network.printer import print_network_spec
             print_network_spec(builder.spec, style='coding')
+        optimize_mlmodel(builder.spec)
         mlmodel = MLModel(builder.spec)
     except RuntimeError as e:
         raise ValueError('Compilation failed: {}'.format(str(e)))
     print('Model Compilation done.')
-
 
     # print information about all ops for which custom layers have been added
     if len(err.custom_layer_nodes) > 0:
